@@ -3,6 +3,9 @@ extends CharacterBody3D
 
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
+var has_magnifying_gem = false
+var has_deminishing_gem = false
+
 
 var scale_small = Vector3(0.5, 0.5, 0.5)
 var scale_normal = Vector3(1, 1, 1)
@@ -14,6 +17,11 @@ var duration = 1.0
 var animating = false
 
 	
+func pick_deminishing_gem():
+	has_deminishing_gem = true
+	
+func pick_magnifying_gem():
+	has_magnifying_gem = true
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -29,6 +37,7 @@ func _physics_process(delta: float) -> void:
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	
 	if direction:
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
@@ -51,7 +60,7 @@ func _physics_process(delta: float) -> void:
 			target_scale = scale_normal
 			elapsed_time = 0.0
 			animating = true
-		if scale == scale_normal:
+		if scale == scale_normal and has_deminishing_gem == true:
 			start_scale = scale
 			target_scale = scale_small
 			elapsed_time = 0.0
@@ -63,26 +72,9 @@ func _physics_process(delta: float) -> void:
 			target_scale = scale_normal
 			elapsed_time = 0.0
 			animating = true
-		if scale == scale_normal:
+		if scale == scale_normal and has_magnifying_gem == true:
 			start_scale = scale
 			target_scale = scale_big
 			elapsed_time = 0.0
 			animating = true
 			
-	#if Input.is_action_just_pressed("magnify"):
-		#if scale == scale_small:
-			#scale = scale_normal
-		#elif scale == scale_normal:
-			#scale = scale_big
-			#
-	#if Input.is_action_just_pressed("deminish"):		
-		#if scale == scale_big:
-			#var size_delta = (scale_big.x - scale_normal.x) / 60
-			#while scale_normal.x < scale.x:
-				#scale.x -= size_delta
-				#scale.y -= size_delta
-				#scale.z -= size_delta
-			##scale = scale_normal
-		#elif scale == scale_normal:
-			#scale = scale_small
-		
