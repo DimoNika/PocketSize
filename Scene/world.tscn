@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://ls7ew62p5d0b"]
 
-[ext_resource type="PackedScene" uid="uid://djxn873kuurp" path="res://box.tscn" id="1_f3sb7"]
-[ext_resource type="PackedScene" uid="uid://fr1xmcv5qn0d" path="res://player.tscn" id="1_fj7yv"]
-[ext_resource type="PackedScene" uid="uid://j8pw0rxmqru4" path="res://torch.tscn" id="3_tlwt5"]
-[ext_resource type="PackedScene" uid="uid://bsovmcxdmyrmq" path="res://blue_gem.tscn" id="4_aqk2v"]
+[ext_resource type="PackedScene" uid="uid://djxn873kuurp" path="res://Scene/box.tscn" id="1_f3sb7"]
+[ext_resource type="PackedScene" uid="uid://fr1xmcv5qn0d" path="res://Scene/player.tscn" id="1_fj7yv"]
+[ext_resource type="PackedScene" uid="uid://j8pw0rxmqru4" path="res://Scene/torch.tscn" id="3_tlwt5"]
+[ext_resource type="PackedScene" uid="uid://bsovmcxdmyrmq" path="res://Scene/blue_gem.tscn" id="4_aqk2v"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_gv5m4"]
 size = Vector3(16.04, 1, 22.95)
