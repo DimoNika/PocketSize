@@ -14,4 +14,5 @@ func _on_body_entered(body: Node3D) -> void:
 	if body.name == "Player":
 		print("hello world")
 		body.pick_deminishing_gem()
+		queue_free()
 	pass # Replace with function body.
