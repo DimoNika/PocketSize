@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://bvjnnot7s5qfh"]
+
+[node name="CustomCamara" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]

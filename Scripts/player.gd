@@ -10,7 +10,7 @@ var run_val = 0
 var jump_val = 0
 var move_dir = Vector2(velocity.x, velocity.z)
 
-@onready var camera = get_viewport().get_camera_3d()
+#@onready var camera = get_viewport().get_camera_3d()
 @onready var anim_tree : AnimationTree = $Gnome/AnimationTree 
 @onready var armature = $Gnome/Armature
 
@@ -45,7 +45,9 @@ var elapsed_time = 0.0
 var duration = 1.0
 var animating = false
 
-	
+# used in worldCamara.gd as offset of camara of defaul posotion
+var camara_offset = 0
+
 func pick_deminishing_gem():
 	has_deminishing_gem = true
 	
@@ -146,30 +148,20 @@ func _physics_process(delta: float) -> void:
 		curAnim = JUMP
 
 	# Get the input direction and handle the movement/deceleration.
-	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_left", "ui_right")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
-	if camera:
-		# Рассчитываем направление относительно камеры
-		var camera_forward = -camera.global_transform.basis.z
-		camera_forward.y = 0
-		camera_forward = camera_forward.normalized()
-
-		var camera_right = camera.global_transform.basis.x
-		camera_right.y = 0
-		camera_right = camera_right.normalized()
-
-		direction = (camera_forward * input_dir.y) + (camera_right * input_dir.x)
-		direction = direction.normalized()
-	
-	if is_on_floor() and move_dir.length() > 0.1:
-		var target_angle = atan2(-velocity.x, -velocity.z)
-		armature.rotation.y = lerp_angle(armature.rotation.y, target_angle, 0.15)
 	
 	# Обновление скорости для движения
 	if direction:
 		velocity.x = direction.x * SPEED
-		velocity.z = direction.z * SPEED
+		if velocity.x > 0:
+			if camara_offset < 1:
+				camara_offset += 0.02
+		else:
+			if camara_offset > -1:
+				camara_offset -= 0.02
+		#velocity.z = direction.z * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
@@ -209,6 +201,8 @@ func _physics_process(delta: float) -> void:
 		elapsed_time += delta
 		var t = clamp(elapsed_time / duration, 0, 1)
 		scale = start_scale.lerp(target_scale, t)
+		#current_model_node.scale = start_scale.lerp(target_scale, t)
+		#$CollisionShape3D.scale = start_scale.lerp(target_scale, t)
 		if t >= 1.0:
 			animating = false
 	
