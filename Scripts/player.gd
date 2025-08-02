@@ -1,5 +1,6 @@
 extends CharacterBody3D
 
+#анимация
 @export var blend_speed = 15
 
 enum { IDLE, RUN, JUMP }
@@ -13,9 +14,25 @@ var move_dir = Vector2(velocity.x, velocity.z)
 @onready var anim_tree : AnimationTree = $Gnome/AnimationTree 
 @onready var armature = $Gnome/Armature
 
+
+
+# смена скина
+const normal_model = preload("res://Scene/gnome.tscn")
+const small_model = preload("res://Scene/gnome_blue.tscn")
+const big_model = preload("res://Scene/gnome_yellow.tscn")
+var size_models = {
+	"normal": normal_model,
+	"small": small_model,
+	"big": big_model
+}
+var current_model_node: Node3D
+var current_size: String = "normal"
+
+
+
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
-var has_magnifying_gem = false
+var has_magnifying_gem = true
 var has_deminishing_gem = false
 
 
@@ -53,7 +70,69 @@ func update_tree():
 	anim_tree["parameters/Run/blend_amount"] = run_val
 	anim_tree["parameters/Jump/blend_amount"] = jump_val
 
+# СКИН
+func swap_gnome_model(size_type: String):
+	if not size_models.has(size_type) or size_models[size_type] == null:
+		push_error("Model for size " + size_type + " not found!")
+		return
+	
+	# Сохраняем текущие трансформации
+	var current_transform = global_transform if current_model_node == null else current_model_node.global_transform
+	
+	# Удаляем старую модель
+	if current_model_node:
+		current_model_node.queue_free()
+	
+	# Создаем новую модель
+	var new_model = size_models[size_type].instantiate()
+	add_child(new_model)
+	new_model.global_transform = current_transform
+	new_model.name = "Gnome"
+	
+	# Обновляем ссылки
+	current_model_node = new_model
+	update_model_references()
+	
+	return new_model
+
+func apply_size_change(new_size: Vector3, size_type: String):
+	start_scale = scale
+	target_scale = new_size
+	elapsed_time = 0.0
+	animating = true
+	
+	swap_gnome_model(size_type)
+
+func update_model_references():
+	if current_model_node:
+		# Ищем AnimationTree в новой модели
+		var new_anim_tree = current_model_node.get_node_or_null("AnimationTree")
+		if new_anim_tree:
+			anim_tree = new_anim_tree
+		else:
+			push_error("AnimationTree not found in model!")
+		
+		# Ищем Armature в новой модели
+		var new_armature = current_model_node.get_node_or_null("Armature")
+		if new_armature:
+			armature = new_armature
+		else:
+			push_error("Armature not found in model!")
+	else:
+		push_error("Current model node is null in update_model_references!")
+
+func _ready():
+	# Инициализируем модель при старте
+	current_model_node = $Gnome
+	update_model_references()
+	
+	current_size = "normal"
+	target_scale = scale_normal
+	scale = scale_normal
+
+# !!!!
 func _physics_process(delta: float) -> void:
+	
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
@@ -135,24 +214,12 @@ func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("deminish"):
 		if scale == scale_big:
-			start_scale = scale
-			target_scale = scale_normal
-			elapsed_time = 0.0
-			animating = true
-		if scale == scale_normal and has_deminishing_gem == true:
-			start_scale = scale
-			target_scale = scale_small
-			elapsed_time = 0.0
-			animating = true
+			apply_size_change(scale_normal, "normal")
+		elif scale == scale_normal and has_deminishing_gem:
+			apply_size_change(scale_small, "small")
 			
 	if Input.is_action_just_pressed("magnify"):
 		if scale == scale_small:
-			start_scale = scale
-			target_scale = scale_normal
-			elapsed_time = 0.0
-			animating = true
-		if scale == scale_normal and has_magnifying_gem == true:
-			start_scale = scale
-			target_scale = scale_big
-			elapsed_time = 0.0
-			animating = true
+			apply_size_change(scale_normal, "normal")
+		elif scale == scale_normal and has_magnifying_gem:
+			apply_size_change(scale_big, "big")
