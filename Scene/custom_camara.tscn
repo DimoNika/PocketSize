@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://bvjnnot7s5qfh"]
+[gd_scene load_steps=0 format=3 uid="uid://bvjnnot7s5qfh"]
 
 [node name="CustomCamera" type="Node3D"]
 
