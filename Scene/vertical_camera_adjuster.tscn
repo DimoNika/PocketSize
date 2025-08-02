@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://drhwxfva0rgos"]
+
+[ext_resource type="Script" uid="uid://j1nailn7tto" path="res://Scripts/vertical_camera_adjuster.gd" id="1_30umk"]
+
+[node name="VerticalCameraAdjuster" type="Node3D"]
+script = ExtResource("1_30umk")

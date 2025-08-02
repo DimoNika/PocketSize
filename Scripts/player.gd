@@ -45,8 +45,10 @@ var elapsed_time = 0.0
 var duration = 1.0
 var animating = false
 
-# used in worldCamara.gd as offset of camara of defaul posotion
+# used in worldCamera.gd as offset of camera of defaul posotion
 var camera_offset = 0
+
+var move_right = null
 
 func pick_deminishing_gem():
 	has_deminishing_gem = true
@@ -156,18 +158,20 @@ func _physics_process(delta: float) -> void:
 	if direction:
 		velocity.x = direction.x * SPEED
 		if velocity.x > 0:
-			if camera_offset < 1:
-				camera_offset += 0.02
+			move_right = true
 		else:
-			if camera_offset > -1:
-				camera_offset -= 0.02
+			move_right = false
 		#velocity.z = direction.z * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
-		
 	
 
+	if move_right == true and camera_offset < 1:
+		camera_offset += 0.02
+	elif move_right == false and camera_offset > -1:
+		camera_offset -= 0.02
+	
 	move_and_slide() # Перемещаем и обновляем is_on_floor()
 
 	if direction.length() > 0.1:

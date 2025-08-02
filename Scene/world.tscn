@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://ls7ew62p5d0b"]
+[gd_scene load_steps=10 format=3 uid="uid://ls7ew62p5d0b"]
 
 [ext_resource type="Script" uid="uid://ckreumohl6nc" path="res://Scripts/world.gd" id="1_37axr"]
 [ext_resource type="PackedScene" uid="uid://djxn873kuurp" path="res://Scene/box.tscn" id="1_f3sb7"]
 [ext_resource type="PackedScene" uid="uid://fr1xmcv5qn0d" path="res://Scene/player.tscn" id="1_fj7yv"]
+[ext_resource type="PackedScene" uid="uid://drhwxfva0rgos" path="res://Scene/vertical_camera_adjuster.tscn" id="3_ol2hl"]
 [ext_resource type="PackedScene" uid="uid://j8pw0rxmqru4" path="res://Scene/torch.tscn" id="3_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://bsovmcxdmyrmq" path="res://Scene/blue_gem.tscn" id="4_aqk2v"]
 [ext_resource type="PackedScene" uid="uid://bvjnnot7s5qfh" path="res://Scene/custom_camara.tscn" id="5_pcvp0"]
@@ -28,6 +29,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00430298, 0, -0.00338745)
 shape = SubResource("BoxShape3D_f3sb7")
 
 [node name="Player" parent="." instance=ExtResource("1_fj7yv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.86531, 0)
+
+[node name="VerticalCameraAdjuster" parent="." instance=ExtResource("3_ol2hl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.86531, 0)
 
 [node name="Blocks" type="Node3D" parent="."]
