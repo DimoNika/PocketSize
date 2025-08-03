@@ -33,8 +33,8 @@ var current_size: String = "normal"
 
 
 
-const SPEED = 5.0
-const JUMP_VELOCITY = 4.5
+const SPEED = 8.0
+const JUMP_VELOCITY = 7.5
 var has_magnifying_gem = true
 var has_deminishing_gem = false
 
@@ -146,7 +146,7 @@ func _ready():
 
 # !!!!
 func _physics_process(delta: float) -> void:
-	
+
 	
 	
 	# Add the gravity.
@@ -171,7 +171,9 @@ func _physics_process(delta: float) -> void:
 		velocity.x = direction.x * SPEED
 		if velocity.x > 0:
 			move_right = true
+			light.position = Vector3(light.position.x, light.position.y, 0.85)
 		else:
+			light.position = Vector3(light.position.x, light.position.y, -0.85)
 			move_right = false
 		#velocity.z = direction.z * SPEED
 	else:
@@ -180,6 +182,7 @@ func _physics_process(delta: float) -> void:
 	
 
 	if move_right == true and camera_offset < 1:
+		
 		camera_offset += 0.02
 	elif move_right == false and camera_offset > -1:
 		camera_offset -= 0.02
@@ -194,6 +197,7 @@ func _physics_process(delta: float) -> void:
 
 		armature.rotation.y = lerp_angle(armature.rotation.y, target_angle, 15 * delta)
 		light.rotation.y = armature.rotation.y + deg_to_rad(180)
+		
 
 
 	# <-- КОРРЕКЦИЯ ЛОГИКИ curAnim ПОСЛЕ move_and_slide()

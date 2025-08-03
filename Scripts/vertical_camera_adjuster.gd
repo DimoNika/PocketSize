@@ -6,7 +6,7 @@ func _ready() -> void:
 	var player = get_parent().get_node("Player")
 	
 	position = player.position
-	print(player.position)
+	#print(player.position)
 	pass # Replace with function body.
 
 
@@ -16,12 +16,19 @@ func _process(delta: float) -> void:
 	var target_position = player.position
 	self.position.x = player.position.x
 	
-	var speed_factor = 2
+	var speed_factor = 3
 	
 	var direction = (target_position - self.position)
 	var distance = direction.length()
 	var speed = distance * speed_factor  # больше расстояние — больше скорость
+	if distance > 1:
+		speed = 5
+	else:
+		speed = 2
 	var move_vector = direction.normalized() * speed * delta
+	#print(distance)
+	
+	
 	if distance > 0.05:
 		#print(move_vector)
 		self.global_position += move_vector
