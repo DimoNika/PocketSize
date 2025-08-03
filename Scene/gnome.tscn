@@ -48,20 +48,20 @@ node_connections = [&"Jump", 0, &"Run", &"Jump", 1, &"Animation 3", &"Run", 0, &
 transform = Transform3D(-2.18557e-08, 0, 0.5, 0, 0.5, 0, -0.5, 0, -2.18557e-08, 0, 0, 0)
 
 [node name="Skeleton3D" parent="Armature" index="0"]
-bones/0/position = Vector3(5.21492e-16, -0.0632237, 4.56247e-17)
+bones/0/position = Vector3(5.21492e-16, -0.0250857, 4.56247e-17)
 bones/0/rotation = Quaternion(-1.6717e-16, -0.0871557, -1.17101e-08, 0.996195)
 bones/1/rotation = Quaternion(-0.674751, -0.0367266, 0.736362, -0.0336528)
-bones/2/rotation = Quaternion(-0.734923, 0.0188397, 0.675233, 0.0599481)
-bones/3/rotation = Quaternion(-0.050558, 0.00976215, 0.688116, 0.723771)
-bones/4/position = Vector3(-0.405489, 0.293678, -0.0311316)
-bones/4/rotation = Quaternion(0.706839, -0.0157715, -0.706839, 0.022524)
-bones/5/position = Vector3(-0.00542661, 0.437017, -0.000956859)
-bones/5/rotation = Quaternion(0.00829044, 0.130477, -0.0262938, 0.991068)
-bones/6/position = Vector3(0.394511, 0.293678, -0.0311316)
-bones/6/rotation = Quaternion(0.706839, -0.0157715, -0.706839, 0.022524)
-bones/7/position = Vector3(-0.00542659, 0.437017, -0.000956867)
-bones/7/rotation = Quaternion(-1.86573e-08, -0.173582, -0.0275699, 0.984433)
-bones/8/rotation = Quaternion(0.0269282, -0.0436028, -0.00596985, 0.998668)
+bones/2/rotation = Quaternion(-0.735858, 0.0277796, 0.675004, 0.0459433)
+bones/3/rotation = Quaternion(-0.0413233, 0.0251126, 0.69916, 0.713329)
+bones/4/position = Vector3(-0.402178, 0.297491, -0.0123523)
+bones/4/rotation = Quaternion(0.707064, -0.00629068, -0.707064, 0.00898403)
+bones/5/position = Vector3(-0.00215316, 0.47501, -0.000379658)
+bones/5/rotation = Quaternion(0.003291, 0.130518, -0.0104377, 0.991386)
+bones/6/position = Vector3(0.397822, 0.297491, -0.0123523)
+bones/6/rotation = Quaternion(0.707064, -0.00629068, -0.707064, 0.00898403)
+bones/7/position = Vector3(-0.00215315, 0.47501, -0.000379683)
+bones/7/rotation = Quaternion(-1.78923e-08, -0.173638, -0.0109442, 0.984749)
+bones/8/rotation = Quaternion(0.0106848, -0.0436168, -0.00236876, 0.998988)
 
 [node name="AnimationTree" type="AnimationTree" parent="." index="2"]
 tree_root = SubResource("AnimationNodeBlendTree_dt2vp")
@@ -72,7 +72,7 @@ parameters/Jump/blend_amount = 0.0
 parameters/Run/blend_amount = 0
 
 [node name="SpotLight3D" type="SpotLight3D" parent="." index="3"]
-transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, -0.185941, 2.2112, 0.71741)
+transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, -0.186, 2.211, 0.85)
 light_color = Color(1, 0.00999999, 0.00999999, 1)
 light_energy = 16.0
 light_indirect_energy = 16.0

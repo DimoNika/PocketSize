@@ -3,3 +3,6 @@
 [node name="CustomCamera" type="Node3D"]
 
 [node name="Camera3D" type="Camera3D" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 0.957496, 0.288447, 0, -0.288447, 0.957496, 0, 1.81078, 2.37912)
