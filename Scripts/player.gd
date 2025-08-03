@@ -6,6 +6,8 @@ extends CharacterBody3D
 enum { IDLE, RUN, JUMP }
 var curAnim = IDLE
 
+var head_axis = 0
+
 var run_val = 0
 var jump_val = 0
 var move_dir = Vector2(velocity.x, velocity.z)
@@ -13,6 +15,7 @@ var move_dir = Vector2(velocity.x, velocity.z)
 #@onready var camera = get_viewport().get_camera_3d()
 @onready var anim_tree : AnimationTree = $Gnome/AnimationTree 
 @onready var armature = $Gnome/Armature
+@onready var light = $Gnome/SpotLight3D
 
 
 
@@ -122,6 +125,13 @@ func update_model_references():
 			armature = new_armature
 		else:
 			push_error("Armature not found in model!")
+		
+		# ⚠️ Ищем SpotLight3D в новой модели
+		var new_light = current_model_node.get_node_or_null("SpotLight3D")
+		if new_light:
+			light = new_light
+		else:
+			push_error("SpotLight3D not found in model!")
 	else:
 		push_error("Current model node is null in update_model_references!")
 
@@ -136,6 +146,8 @@ func _ready():
 
 # !!!!
 func _physics_process(delta: float) -> void:
+	
+	
 	
 	# Add the gravity.
 	if not is_on_floor():
@@ -178,7 +190,12 @@ func _physics_process(delta: float) -> void:
 		# Вычисляем угол поворота в плоскости XZ
 		var look_direction = Vector2(direction.x, direction.y)
 		var target_angle = look_direction.angle()
+		var target_angle2 = look_direction.angle() + PI
+
 		armature.rotation.y = lerp_angle(armature.rotation.y, target_angle, 15 * delta)
+		light.rotation.y = armature.rotation.y + deg_to_rad(180)
+
+
 	# <-- КОРРЕКЦИЯ ЛОГИКИ curAnim ПОСЛЕ move_and_slide()
 	if is_on_floor():
 		# Если персонаж на земле, но его текущая анимация - прыжок,
