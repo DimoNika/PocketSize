@@ -17,4 +17,10 @@ shape = SubResource("BoxShape3D_5wfvm")
 
 [node name="yellow_gem" parent="Area3D" instance=ExtResource("2_5arv2")]
 
+[node name="YellowLabel" type="Label3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.08769, 3.79081, 0)
+pixel_size = 0.02
+text = "Press Q to Magnify
+Press F to Mine"
+
 [connection signal="body_entered" from="Area3D" to="Area3D" method="_on_body_entered"]

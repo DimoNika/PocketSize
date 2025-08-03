@@ -17,4 +17,10 @@ shape = SubResource("BoxShape3D_c6c7x")
 
 [node name="blue_gem" parent="Area3D" instance=ExtResource("2_v8yb0")]
 
+[node name="BlueLabel" type="Label3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.53159, 4.09893, 0)
+pixel_size = 0.02
+text = "Press E to deminish
+Press Q to return size"
+
 [connection signal="body_entered" from="Area3D" to="Area3D" method="_on_body_entered"]
