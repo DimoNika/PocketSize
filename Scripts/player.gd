@@ -169,12 +169,14 @@ func _physics_process(delta: float) -> void:
 	# Обновление скорости для движения
 	if direction:
 		velocity.x = direction.x * SPEED
+		
 		if velocity.x > 0:
 			move_right = true
 			light.position = Vector3(light.position.x, light.position.y, 0.85)
 		else:
 			light.position = Vector3(light.position.x, light.position.y, -0.85)
 			move_right = false
+			light.position = Vector3(light.position.x, light.position.y, -0.85)
 		#velocity.z = direction.z * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
