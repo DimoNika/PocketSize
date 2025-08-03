@@ -1,7 +1,11 @@
 extends Area3D
 
+var label
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	label = $BlueLabel
+	label.visible = false
 	pass # Replace with function body.
 
 
@@ -13,5 +17,8 @@ func _process(delta: float) -> void:
 func _on_body_entered(body: Node3D) -> void:
 	if body.name == "Player":
 		body.pick_deminishing_gem()
-		queue_free()
+		label.visible = true
+		
+		$blue_gem.visible = false
+		
 	pass # Replace with function body.

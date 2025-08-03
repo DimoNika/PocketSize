@@ -3,6 +3,8 @@ extends CharacterBody3D
 #анимация
 @export var blend_speed = 15
 
+signal player_mined
+
 enum { IDLE, RUN, JUMP }
 var curAnim = IDLE
 
@@ -11,6 +13,12 @@ var head_axis = 0
 var run_val = 0
 var jump_val = 0
 var move_dir = Vector2(velocity.x, velocity.z)
+
+# status if player can mine final wall
+var is_in_minable_area = false
+
+# status if player can't get bigger
+var is_in_small_area = false
 
 #@onready var camera = get_viewport().get_camera_3d()
 @onready var anim_tree : AnimationTree = $Gnome/AnimationTree 
@@ -144,6 +152,10 @@ func _ready():
 	target_scale = scale_normal
 	scale = scale_normal
 
+func die():
+	self.position = Vector3(0, 2, 0)
+	
+
 # !!!!
 func _physics_process(delta: float) -> void:
 
@@ -160,6 +172,12 @@ func _physics_process(delta: float) -> void:
 		curAnim = JUMP
 	elif not is_on_floor() and curAnim != JUMP:
 		curAnim = JUMP
+	
+	if Input.is_action_just_pressed("Mine"):
+		if is_in_minable_area:
+#			player mines
+			print("test")
+			
 
 	# Get the input direction and handle the movement/deceleration.
 	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_left", "ui_right")
@@ -236,11 +254,41 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("deminish"):
 		if scale == scale_big:
 			apply_size_change(scale_normal, "normal")
+			current_size = "normal"
 		elif scale == scale_normal and has_deminishing_gem:
 			apply_size_change(scale_small, "small")
+			current_size = "small"
+			
 			
 	if Input.is_action_just_pressed("magnify"):
-		if scale == scale_small:
+		if scale == scale_small and is_in_small_area == false:
 			apply_size_change(scale_normal, "normal")
-		elif scale == scale_normal and has_magnifying_gem:
+			current_size = "normal"
+		elif scale == scale_normal and has_magnifying_gem and is_in_small_area == false:
 			apply_size_change(scale_big, "big")
+			current_size = "big"
+			
+
+
+func _on_mine_box_body_entered(body: Node3D) -> void:
+	if body.name == "Player":
+		is_in_minable_area = true
+	
+
+
+func _on_mine_box_body_exited(body: Node3D) -> void:
+	if body.name == "Player":
+		is_in_minable_area = false
+	
+
+
+func _on_area_3d_body_entered(body: Node3D) -> void:
+	if body.name == "Player":
+		is_in_small_area = true
+	pass # Replace with function body.
+
+
+func _on_area_3d_body_exited(body: Node3D) -> void:
+	if body.name == "Player":
+		is_in_small_area = false
+	pass # Replace with function body.
