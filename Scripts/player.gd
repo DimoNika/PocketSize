@@ -34,8 +34,8 @@ var current_size: String = "normal"
 
 
 const SPEED = 8.0
-const JUMP_VELOCITY = 7.5
-var has_magnifying_gem = true
+const JUMP_VELOCITY = 8
+var has_magnifying_gem = false
 var has_deminishing_gem = false
 
 

@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://cvprtch13mtju"]
+
+[ext_resource type="Script" uid="uid://mageso3gjc8w" path="res://Scripts/area_3d_yellowGem.gd" id="1_n2w7q"]
+[ext_resource type="PackedScene" uid="uid://dql45mmkj54vh" path="res://Assets/Yellow_gem/yellow_gem.glb" id="2_5arv2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5wfvm"]
+size = Vector3(0.7, 0.7, 0.6)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Area3D" type="Area3D" parent="."]
+script = ExtResource("1_n2w7q")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.025, 0.285, -0.025)
+shape = SubResource("BoxShape3D_5wfvm")
+
+[node name="yellow_gem" parent="Area3D" instance=ExtResource("2_5arv2")]
+
+[connection signal="body_entered" from="Area3D" to="Area3D" method="_on_body_entered"]
