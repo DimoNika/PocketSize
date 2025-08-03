@@ -6,7 +6,7 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_5wfvm"]
 size = Vector3(0.7, 0.7, 0.6)
 
-[node name="Node3D" type="Node3D"]
+[node name="YellowGem" type="Node3D"]
 
 [node name="Area3D" type="Area3D" parent="."]
 script = ExtResource("1_n2w7q")
