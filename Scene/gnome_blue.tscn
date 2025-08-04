@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dsvd01wjpwqre"]
+[gd_scene load_steps=13 format=3 uid="uid://dsvd01wjpwqre"]
 
 [ext_resource type="PackedScene" uid="uid://pjvl0ujw324e" path="res://Assets/Gnome_blue/Gnome_blue.glb" id="1_udj03"]
 
@@ -11,69 +11,87 @@ animation = &"Jump"
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qe4o5"]
 animation = &"Idle"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lqsbe"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_sqvly"]
+animation = &"Attack_Heavy"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_apr4j"]
 animation = &"Run_left"
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_gnqjs"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fbwx4"]
 animation = &"Run"
 
 [sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_1yl2l"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_lqsbe")
+blend_point_0/node = SubResource("AnimationNodeAnimation_apr4j")
 blend_point_0/pos = -1.0
-blend_point_1/node = SubResource("AnimationNodeAnimation_gnqjs")
+blend_point_1/node = SubResource("AnimationNodeAnimation_fbwx4")
 blend_point_1/pos = 1.0
 blend_mode = 1
 
 [sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_dt2vp"]
 
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_jbu8v"]
+
 [sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_5vlar"]
 
-[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_oahhr"]
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_udj03"]
+graph_offset = Vector2(-530.374, 43.5746)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_qe4o5")
 nodes/Animation/position = Vector2(-580, 120)
 "nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_cna81")
 "nodes/Animation 2/position" = Vector2(-580, 300)
 "nodes/Animation 3/node" = SubResource("AnimationNodeAnimation_5vlar")
 "nodes/Animation 3/position" = Vector2(-288.504, 472.986)
+nodes/Attack_Heavy/node = SubResource("AnimationNodeAnimation_sqvly")
+nodes/Attack_Heavy/position = Vector2(0, 480)
 nodes/BlendSpace1D/node = SubResource("AnimationNodeBlendSpace1D_1yl2l")
 nodes/BlendSpace1D/position = Vector2(-840, 300)
 nodes/Jump/node = SubResource("AnimationNodeBlend2_dt2vp")
 nodes/Jump/position = Vector2(-80, 140)
+nodes/Mine/node = SubResource("AnimationNodeBlend2_jbu8v")
+nodes/Mine/position = Vector2(260, 120)
 nodes/Run/node = SubResource("AnimationNodeBlend2_5vlar")
 nodes/Run/position = Vector2(-340, 140)
-node_connections = [&"Jump", 0, &"Run", &"Jump", 1, &"Animation 3", &"Run", 0, &"Animation", &"Run", 1, &"Animation 2", &"output", 0, &"Jump"]
+nodes/output/position = Vector2(600, 200)
+node_connections = [&"Jump", 0, &"Run", &"Jump", 1, &"Animation 3", &"Mine", 0, &"Jump", &"Mine", 1, &"Attack_Heavy", &"Run", 0, &"Animation", &"Run", 1, &"Animation 2", &"output", 0, &"Mine"]
 
 [node name="Gnome_blue" instance=ExtResource("1_udj03")]
 transform = Transform3D(-2.18557e-08, 0, 0.5, 0, 0.5, 0, -0.5, 0, -2.18557e-08, 0, 0, 0)
 
 [node name="Skeleton3D" parent="Armature" index="0"]
-bones/0/position = Vector3(5.21492e-16, -0.0878882, 4.56247e-17)
+bones/0/position = Vector3(5.21492e-16, -0.0753598, 4.56247e-17)
 bones/0/rotation = Quaternion(-1.6717e-16, -0.0871557, -1.17101e-08, 0.996195)
+bones/1/position = Vector3(0.7, 1, -5.84048e-09)
 bones/1/rotation = Quaternion(-0.674751, -0.0367266, 0.736362, -0.0336528)
-bones/2/rotation = Quaternion(-0.73421, 0.0130558, 0.675282, 0.0689958)
-bones/3/rotation = Quaternion(-0.0565405, -0.000209903, 0.680741, 0.730339)
-bones/4/position = Vector3(-0.407631, 0.291211, -0.0432765)
-bones/4/rotation = Quaternion(0.706587, -0.021991, -0.706587, 0.0314064)
-bones/5/position = Vector3(-0.0075436, 0.412446, -0.00133014)
-bones/5/rotation = Quaternion(0.0115291, 0.13043, -0.0365657, 0.990716)
-bones/6/position = Vector3(0.392369, 0.291211, -0.0432765)
-bones/6/rotation = Quaternion(0.706587, -0.021991, -0.706587, 0.0314064)
-bones/7/position = Vector3(-0.00754359, 0.412446, -0.00133014)
-bones/7/rotation = Quaternion(-1.75081e-08, -0.17352, -0.0383402, 0.984084)
-bones/8/rotation = Quaternion(0.0374314, -0.0435873, -0.00829834, 0.998314)
+bones/1/scale = Vector3(1.00002, 1, 1)
+bones/2/position = Vector3(-0.7, 1, 9.92291e-09)
+bones/2/rotation = Quaternion(-0.734582, 0.0159938, 0.675267, 0.0644012)
+bones/2/scale = Vector3(1.00002, 1, 1)
+bones/3/position = Vector3(-0.149996, 0.945286, -0.0945286)
+bones/3/rotation = Quaternion(-0.0535108, 0.00484297, 0.684496, 0.727034)
+bones/3/scale = Vector3(1, 0.999976, 1)
+bones/4/position = Vector3(-0.406543, 0.292464, -0.0371074)
+bones/4/rotation = Quaternion(0.706725, -0.0188576, -0.706725, 0.0269315)
+bones/5/position = Vector3(-0.00646825, 0.424927, -0.00114056)
+bones/5/rotation = Quaternion(0.00988641, 0.130456, -0.0313556, 0.990909)
+bones/6/position = Vector3(0.393457, 0.292464, -0.0371074)
+bones/6/rotation = Quaternion(0.706725, -0.0188576, -0.706725, 0.0269315)
+bones/7/position = Vector3(-0.00646826, 0.424927, -0.00114051)
+bones/7/rotation = Quaternion(-2.48698e-08, -0.173554, -0.0328773, 0.984275)
+bones/8/rotation = Quaternion(0.0320979, -0.0435958, -0.00711594, 0.998508)
 
-[node name="AnimationTree" type="AnimationTree" parent="." index="2"]
-tree_root = SubResource("AnimationNodeBlendTree_oahhr")
-advance_expression_base_node = NodePath("../AnimationPlayer")
-anim_player = NodePath("../AnimationPlayer")
-parameters/BlendSpace1D/blend_position = -0.00149256
-parameters/Jump/blend_amount = 0.0
-parameters/Run/blend_amount = 0
-
-[node name="SpotLight3D" type="SpotLight3D" parent="." index="3"]
+[node name="SpotLight3D" type="SpotLight3D" parent="." index="2"]
 transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, -0.186, 2.211, 0.85)
-light_color = Color(1, 0.00999999, 0.00999999, 1)
+light_color = Color(0.115128, 0.57675, 0.795571, 1)
 light_energy = 16.0
 light_indirect_energy = 16.0
 light_size = 1.0
 spot_range = 10.764
+
+[node name="AnimationTree" type="AnimationTree" parent="." index="3"]
+tree_root = SubResource("AnimationNodeBlendTree_udj03")
+advance_expression_base_node = NodePath("../AnimationPlayer")
+anim_player = NodePath("../AnimationPlayer")
+parameters/BlendSpace1D/blend_position = -0.00149256
+parameters/Jump/blend_amount = 0.0
+parameters/Mine/blend_amount = 0.0
+parameters/Run/blend_amount = 0

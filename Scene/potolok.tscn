@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dbeq6so5o6cci" path="res://Assets/Wall/Potolok.glb" id="1_iangg"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_q1dn2"]
-size = Vector3(21, 13, 1)
+size = Vector3(21, 13.5, 1)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_iangg"]
 radius = 10.0
@@ -15,7 +15,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.4)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.4)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 7.8, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 7.55, 0)
 shape = SubResource("BoxShape3D_q1dn2")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="StaticBody3D" index="1"]

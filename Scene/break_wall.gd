@@ -2,7 +2,7 @@ extends Node3D
 
 var is_in_minable_area = false
 var is_broken = false
-
+var timer = 60
 var player
 
 # Called when the node enters the scene tree for the first time.
@@ -19,15 +19,19 @@ func _process(delta: float) -> void:
 			return
 		print("player mined")
 		# Делаем стену невидимой и отключаем коллизию
-		visible = false
-		$MineBox/CollisionShape3D.disabled = true
+		
 		is_broken = true
-		queue_free()
+		
+		
 		
 		# Удаляем стену через 2 секунды (после завершения эффектов)
 		
-		
-
+	if is_broken == true:
+		timer -= 1
+	if timer < 0:
+		visible = false
+		$MineBox/CollisionShape3D.disabled = true
+		queue_free()
 
 func _on_mine_box_body_entered(body: Node3D) -> void:
 	if body.name == "Player":

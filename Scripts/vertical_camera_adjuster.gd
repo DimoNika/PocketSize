@@ -25,7 +25,7 @@ func _process(delta: float) -> void:
 		speed = 5
 	else:
 		speed = 2
-	print(distance)
+	#print(distance)
 	
 	
 	var move_vector = direction.normalized() * speed * delta

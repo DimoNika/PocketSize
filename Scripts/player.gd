@@ -10,6 +10,7 @@ var curAnim = IDLE
 
 var head_axis = 0
 
+var MineTimer = -1
 var run_val = 0
 var jump_val = 0
 var move_dir = Vector2(velocity.x, velocity.z)
@@ -73,24 +74,24 @@ func handle_animations(delta):
 		IDLE:
 			run_val = lerpf(run_val, 0, blend_speed * delta)
 			jump_val = lerpf(jump_val, 0, blend_speed * delta)
+
 		RUN:
 			run_val = lerpf(run_val, 1, blend_speed * delta)
 			jump_val = lerpf(jump_val, 0, blend_speed * delta)
+
 		JUMP:
 			run_val = lerpf(run_val, 0, blend_speed * delta)
 			jump_val = lerpf(jump_val, 1, blend_speed * delta)
+
 	update_tree()
 
 func update_tree():
 	anim_tree["parameters/Run/blend_amount"] = run_val
 	anim_tree["parameters/Jump/blend_amount"] = jump_val
 
+
 # СКИН
 func swap_gnome_model(size_type: String):
-	if not size_models.has(size_type) or size_models[size_type] == null:
-		push_error("Model for size " + size_type + " not found!")
-		return
-	
 	# Сохраняем текущие трансформации
 	var current_transform = global_transform if current_model_node == null else current_model_node.global_transform
 	
@@ -122,26 +123,16 @@ func update_model_references():
 	if current_model_node:
 		# Ищем AnimationTree в новой модели
 		var new_anim_tree = current_model_node.get_node_or_null("AnimationTree")
-		if new_anim_tree:
-			anim_tree = new_anim_tree
-		else:
-			push_error("AnimationTree not found in model!")
+		anim_tree = new_anim_tree
 		
 		# Ищем Armature в новой модели
 		var new_armature = current_model_node.get_node_or_null("Armature")
-		if new_armature:
-			armature = new_armature
-		else:
-			push_error("Armature not found in model!")
+		armature = new_armature
 		
 		# ⚠️ Ищем SpotLight3D в новой модели
 		var new_light = current_model_node.get_node_or_null("SpotLight3D")
-		if new_light:
-			light = new_light
-		else:
-			push_error("SpotLight3D not found in model!")
-	else:
-		push_error("Current model node is null in update_model_references!")
+		light = new_light
+
 
 func _ready():
 	# Инициализируем модель при старте
@@ -158,8 +149,8 @@ func die():
 
 # !!!!
 func _physics_process(delta: float) -> void:
-
-	
+	handle_animations(delta)
+	MineTimer -= 1
 	
 	# Add the gravity.
 	if not is_on_floor():
@@ -172,12 +163,16 @@ func _physics_process(delta: float) -> void:
 		curAnim = JUMP
 	elif not is_on_floor() and curAnim != JUMP:
 		curAnim = JUMP
+		
 	
 	if Input.is_action_just_pressed("Mine"):
 		if is_in_minable_area:
-#			player mines
-			print("test")
-			
+			MineTimer = 115
+			#player mines
+			anim_tree.set("parameters/Mine/blend_amount", 1)
+	if MineTimer == 0:
+		anim_tree.set("parameters/Mine/blend_amount", 0)
+		
 
 	# Get the input direction and handle the movement/deceleration.
 	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_left", "ui_right")
@@ -185,7 +180,7 @@ func _physics_process(delta: float) -> void:
 	
 	
 	# Обновление скорости для движения
-	if direction:
+	if direction and MineTimer < 1:
 		velocity.x = direction.x * SPEED
 		
 		if velocity.x > 0:
@@ -209,7 +204,8 @@ func _physics_process(delta: float) -> void:
 	
 	move_and_slide() # Перемещаем и обновляем is_on_floor()
 
-	if direction.length() > 0.1:
+# ======== ПОВОРОТ АНИМАЦИИ ========
+	if direction.length() > 0.1 and MineTimer < 1:
 		# Вычисляем угол поворота в плоскости XZ
 		var look_direction = Vector2(direction.x, direction.y)
 		var target_angle = look_direction.angle()
@@ -217,8 +213,6 @@ func _physics_process(delta: float) -> void:
 
 		armature.rotation.y = lerp_angle(armature.rotation.y, target_angle, 15 * delta)
 		light.rotation.y = armature.rotation.y + deg_to_rad(180)
-		
-
 
 	# <-- КОРРЕКЦИЯ ЛОГИКИ curAnim ПОСЛЕ move_and_slide()
 	if is_on_floor():
