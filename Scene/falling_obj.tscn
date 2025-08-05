@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=4 uid="uid://bfulli1aoiuxs"]
 
-[ext_resource type="Script" uid="uid://dnpend4y7imxm" path="res://Scene/falling_obj.gd" id="1_1okie"]
+[ext_resource type="Script" uid="uid://dnpend4y7imxm" path="res://Scripts/falling_obj.gd" id="1_1okie"]
 [ext_resource type="Texture2D" uid="uid://do70kdjenl4jb" path="res://Assets/Dekor/Rocks_boychikjopa-20.png" id="1_bgfw5"]
 [ext_resource type="Script" uid="uid://hrxuiocif0py" path="res://Scripts/falling_obj_hitbox.gd" id="2_biehd"]
 
