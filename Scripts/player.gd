@@ -10,7 +10,6 @@ var curAnim = IDLE
 
 var head_axis = 0
 
-var MineTimer = -1
 var run_val = 0
 var jump_val = 0
 var move_dir = Vector2(velocity.x, velocity.z)
@@ -42,8 +41,8 @@ var current_size: String = "normal"
 
 
 
-const SPEED = 8.0
-const JUMP_VELOCITY = 8
+const SPEED = 800
+const JUMP_VELOCITY = 500
 var has_magnifying_gem = false
 var has_deminishing_gem = false
 
@@ -150,7 +149,6 @@ func die():
 # !!!!
 func _physics_process(delta: float) -> void:
 	handle_animations(delta)
-	MineTimer -= 1
 	
 	# Add the gravity.
 	if not is_on_floor():
@@ -159,20 +157,18 @@ func _physics_process(delta: float) -> void:
 	# Handle jump.
 	# Если мы на земле и нажали прыжок, или если мы в воздухе и не в состоянии прыжка (например, упали)
 	if Input.is_action_just_pressed("Jump") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
+		velocity.y = JUMP_VELOCITY * delta
 		curAnim = JUMP
 	elif not is_on_floor() and curAnim != JUMP:
 		curAnim = JUMP
 		
-	
+	# ===== MINE =====
 	if Input.is_action_just_pressed("Mine"):
 		if is_in_minable_area:
-			MineTimer = 115
-			#player mines
-			anim_tree.set("parameters/Mine/blend_amount", 1)
-	if MineTimer == 0:
-		anim_tree.set("parameters/Mine/blend_amount", 0)
-		
+			if current_size == "big":
+				anim_tree.set("parameters/Mine/blend_amount", 1)
+				await get_tree().create_timer(1.88).timeout
+				anim_tree.set("parameters/Mine/blend_amount", 0)
 
 	# Get the input direction and handle the movement/deceleration.
 	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_left", "ui_right")
@@ -180,8 +176,8 @@ func _physics_process(delta: float) -> void:
 	
 	
 	# Обновление скорости для движения
-	if direction and MineTimer < 1:
-		velocity.x = direction.x * SPEED
+	if direction:
+		velocity.x = direction.x * SPEED * delta
 		
 		if velocity.x > 0:
 			move_right = true
@@ -192,8 +188,8 @@ func _physics_process(delta: float) -> void:
 			light.position = Vector3(light.position.x, light.position.y, -0.85)
 		#velocity.z = direction.z * SPEED
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		velocity.z = move_toward(velocity.z, 0, SPEED)
+		velocity.x = move_toward(velocity.x, 0, SPEED * delta)
+		velocity.z = move_toward(velocity.z, 0, SPEED * delta)
 	
 
 	if move_right == true and camera_offset < 1:
@@ -205,7 +201,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide() # Перемещаем и обновляем is_on_floor()
 
 # ======== ПОВОРОТ АНИМАЦИИ ========
-	if direction.length() > 0.1 and MineTimer < 1:
+	if direction.length() > 0.1:
 		# Вычисляем угол поворота в плоскости XZ
 		var look_direction = Vector2(direction.x, direction.y)
 		var target_angle = look_direction.angle()

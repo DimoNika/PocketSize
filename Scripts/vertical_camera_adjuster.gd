@@ -29,9 +29,7 @@ func _process(delta: float) -> void:
 	
 	
 	var move_vector = direction.normalized() * speed * delta
-	#print(distance)
 	
 	
 	if distance > 0.05:
-		#print(move_vector)
 		self.global_position += move_vector

@@ -34,7 +34,6 @@ blend_mode = 1
 [sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_5vlar"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_snf7i"]
-graph_offset = Vector2(-530.374, 43.5746)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_qe4o5")
 nodes/Animation/position = Vector2(-580, 120)
 "nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_cna81")
@@ -58,26 +57,26 @@ node_connections = [&"Jump", 0, &"Run", &"Jump", 1, &"Animation 3", &"Mine", 0, 
 transform = Transform3D(-2.18557e-08, 0, 0.5, 0, 0.5, 0, -0.5, 0, -2.18557e-08, 0, 0, 0)
 
 [node name="Skeleton3D" parent="Armature" index="0"]
-bones/0/position = Vector3(5.21492e-16, -0.0738254, 4.56247e-17)
+bones/0/position = Vector3(5.21492e-16, -0.0975052, 4.56247e-17)
 bones/0/rotation = Quaternion(-1.6717e-16, -0.0871557, -1.17101e-08, 0.996195)
 bones/1/position = Vector3(0.7, 1, -5.84048e-09)
 bones/1/rotation = Quaternion(-0.674751, -0.0367266, 0.736362, -0.0336528)
 bones/1/scale = Vector3(1.00002, 1, 1)
 bones/2/position = Vector3(-0.7, 1, 9.92291e-09)
-bones/2/rotation = Quaternion(-0.734627, 0.0163536, 0.675264, 0.0638383)
+bones/2/rotation = Quaternion(-0.733946, 0.0110723, 0.67528, 0.0720961)
 bones/2/scale = Vector3(1.00002, 1, 1)
 bones/3/position = Vector3(-0.149996, 0.945286, -0.0945286)
-bones/3/rotation = Quaternion(-0.0531378, 0.00546462, 0.684956, 0.726624)
+bones/3/rotation = Quaternion(-0.058863, -0.00408721, 0.677829, 0.732848)
 bones/3/scale = Vector3(1, 0.999976, 1)
-bones/4/position = Vector3(-0.40641, 0.292617, -0.0363519)
-bones/4/rotation = Quaternion(0.706743, -0.0184084, -0.706743, 0.0262899)
-bones/5/position = Vector3(-0.00633658, 0.426456, -0.0011173)
-bones/5/rotation = Quaternion(0.00968518, 0.130458, -0.0307174, 0.990931)
-bones/6/position = Vector3(0.39359, 0.292617, -0.0363519)
-bones/6/rotation = Quaternion(0.706743, -0.0184084, -0.706743, 0.0262899)
-bones/7/position = Vector3(-0.00633656, 0.426456, -0.00111732)
-bones/7/rotation = Quaternion(-1.86871e-08, -0.173558, -0.0322081, 0.984297)
-bones/8/rotation = Quaternion(0.0314447, -0.0435967, -0.00697111, 0.99853)
+bones/4/position = Vector3(-0.408365, 0.290365, -0.0474414)
+bones/4/rotation = Quaternion(0.706482, -0.0241058, -0.706482, 0.0344266)
+bones/5/position = Vector3(-0.00836905, 0.402866, -0.00147568)
+bones/5/rotation = Quaternion(0.0126378, 0.130411, -0.040082, 0.990569)
+bones/6/position = Vector3(0.391635, 0.290365, -0.0474414)
+bones/6/rotation = Quaternion(0.706482, -0.0241058, -0.706482, 0.0344266)
+bones/7/position = Vector3(-0.00836902, 0.402866, -0.00147572)
+bones/7/rotation = Quaternion(-1.87615e-08, -0.173495, -0.0420271, 0.983938)
+bones/8/rotation = Quaternion(0.0410309, -0.0435808, -0.00909634, 0.998166)
 
 [node name="Untitled_022" parent="Armature/Skeleton3D" index="11"]
 visible = false
