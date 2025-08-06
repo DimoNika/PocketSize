@@ -58,26 +58,32 @@ node_connections = [&"Jump", 0, &"Run", &"Jump", 1, &"Animation 3", &"Mine", 0, 
 transform = Transform3D(-2.18557e-08, 0, 0.5, 0, 0.5, 0, -0.5, 0, -2.18557e-08, 0, 0, 0)
 
 [node name="Skeleton3D" parent="Armature" index="0"]
-bones/0/position = Vector3(5.21492e-16, 0, 4.56247e-17)
+bones/0/position = Vector3(5.21492e-16, -0.0830642, 4.56247e-17)
 bones/0/rotation = Quaternion(-1.6717e-16, -0.0871557, -1.17101e-08, 0.996195)
 bones/1/position = Vector3(0.7, 1, -5.84048e-09)
 bones/1/rotation = Quaternion(-0.674751, -0.0367266, 0.736362, -0.0336528)
 bones/1/scale = Vector3(1.00002, 1, 1)
 bones/2/position = Vector3(-0.7, 1, 9.92291e-09)
-bones/2/rotation = Quaternion(-0.736362, 0.0336545, 0.674752, 0.0367265)
+bones/2/rotation = Quaternion(-0.734356, 0.0141871, 0.675278, 0.067227)
 bones/2/scale = Vector3(1.00002, 1, 1)
 bones/3/position = Vector3(-0.149996, 0.945286, -0.0945286)
-bones/3/rotation = Quaternion(-0.0352235, 0.0352236, 0.706228, 0.70623)
+bones/3/rotation = Quaternion(-0.0553743, 0.00173557, 0.682191, 0.729072)
 bones/3/scale = Vector3(1, 0.999976, 1)
-bones/4/position = Vector3(-0.4, 0.3, 5.47955e-09)
-bones/4/rotation = Quaternion(0.707107, -3.18925e-16, -0.707107, -2.4042e-16)
-bones/5/position = Vector3(-8.61653e-09, 0.5, -3.16746e-08)
-bones/5/rotation = Quaternion(1.75373e-08, 0.130526, 1.34376e-15, 0.991445)
-bones/6/position = Vector3(0.4, 0.3, -4.25482e-09)
-bones/6/rotation = Quaternion(0.707107, -3.18925e-16, -0.707107, -2.4042e-16)
-bones/7/position = Vector3(-4.24342e-09, 0.5, 2.04795e-08)
-bones/7/rotation = Quaternion(-2.33312e-08, -0.173648, 0, 0.984808)
-bones/8/rotation = Quaternion(0, -0.0436194, -6.9455e-18, 0.999048)
+bones/4/position = Vector3(-0.407212, 0.291694, -0.0409011)
+bones/4/rotation = Quaternion(0.706642, -0.0207846, -0.706642, 0.0296835)
+bones/5/position = Vector3(-0.00712954, 0.417252, -0.00125714)
+bones/5/rotation = Quaternion(0.0108967, 0.130441, -0.0345598, 0.990794)
+bones/6/position = Vector3(0.392788, 0.291694, -0.0409011)
+bones/6/rotation = Quaternion(0.706642, -0.0207846, -0.706642, 0.0296835)
+bones/7/position = Vector3(-0.00712953, 0.417252, -0.00125714)
+bones/7/rotation = Quaternion(-1.79533e-08, -0.173534, -0.0362369, 0.984161)
+bones/8/rotation = Quaternion(0.035378, -0.0435907, -0.00784311, 0.998392)
+
+[node name="Untitled_022" parent="Armature/Skeleton3D" index="11"]
+visible = false
+
+[node name="Untitled_023" parent="Armature/Skeleton3D" index="12"]
+visible = false
 
 [node name="Untitled_024" parent="Armature/Skeleton3D" index="13"]
 visible = false
@@ -107,7 +113,7 @@ visible = false
 visible = false
 
 [node name="SpotLight3D" type="SpotLight3D" parent="." index="2"]
-transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, -0.186, 2.211, 0.85)
+transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, -0.186, 2.211, 1.25)
 light_energy = 16.0
 light_indirect_energy = 16.0
 light_size = 1.0
