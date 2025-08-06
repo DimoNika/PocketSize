@@ -2,11 +2,10 @@ extends CharacterBody3D
 
 # ===== БАЗОВЫЕ ЗНАЧЕНИЯ =====
 const SPEED = 12
-const JUMP_VELOCITY = 18
-const GRAVITY = 40
+const JUMP_VELOCITY = 16
+const GRAVITY = 30
 const DOWN_GRAVITY_FACTOR = 1.2
-const acc = 0.5
-const friction = 70
+const ACC = 0.5
 
 var jumping = false # для модификатора гравитации
 @onready var jump_buffer_timer: Timer = $JumpBufferTimer
@@ -161,11 +160,18 @@ func _ready():
 	scale = scale_normal
 
 
+# ===== Прыжок при зажатии =====
+func _input(event):
+	if event.is_action_released("Jump"):
+		if velocity.y > 0.0:
+			velocity.y *= 0.5 # если не зажал кнпоку
+
+
 
 # !!!!
 func _physics_process(delta: float) -> void:
 	handle_animations(delta)
-	
+	print(coyote_timer.time_left)
 	# ===== ГРАВИТАЦИЯ =====
 	if not is_on_floor():
 		if jumping == true:
@@ -176,6 +182,8 @@ func _physics_process(delta: float) -> void:
 		else:
 			#print ("fall")
 			velocity.y -= GRAVITY * DOWN_GRAVITY_FACTOR * delta
+	
+	
 	
 	# ===== ПРЫЖОК =====
 	if Input.is_action_just_pressed("Jump"):
@@ -192,20 +200,26 @@ func _physics_process(delta: float) -> void:
 		jump_buffer_timer.stop()
 		coyote_timer.stop()
 	
+	
+	
 	# ===== ПОЛУЧЕНИЕ КНОПОК =====
 	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_left", "ui_right")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
+	
+	
 	# ===== СКОРОСТЬ =====
 	if direction:
-		velocity.x = move_toward(velocity.x, SPEED * direction.x, acc) 
+		velocity.x = move_toward(velocity.x, SPEED * direction.x, ACC) 
 		light.position = Vector3(light.position.x, light.position.y, 1.25 * direction.x)
 		if velocity.x > 0:
 			move_right = true
 		else:
 			move_right = false
 	else:
-		velocity.x = move_toward(velocity.x, 0, acc)
+		velocity.x = move_toward(velocity.x, 0, ACC)
+	
+	
 	
 	# ===== КАМЕРА ПЕРЕД ИГРОКОМ =====
 	if move_right == true and camera_offset < 1:
