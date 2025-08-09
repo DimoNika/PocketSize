@@ -5,7 +5,7 @@ const SPEED = 12
 const JUMP_VELOCITY = 16
 const GRAVITY = 30
 const DOWN_GRAVITY_FACTOR = 1.2
-const ACC = 0.5
+const ACC = 1
 
 var jumping = false # для модификатора гравитации
 @onready var jump_buffer_timer: Timer = $JumpBufferTimer
@@ -26,6 +26,11 @@ var animating = false
 
 
 # ===== АНИМАЦИЯ =====
+@onready var anim_tree : AnimationTree = $Gnome/AnimationTree 
+@onready var armature = $Gnome/Armature
+@onready var light = $Gnome/Light/SpotLight3D
+
+
 @export var blend_speed = 15
 
 enum { IDLE, RUN, JUMP }
@@ -49,21 +54,21 @@ var is_in_small_area = false
 
 
 # ===== СМЕНА СКИНА =====
-@onready var anim_tree : AnimationTree = $Gnome/AnimationTree 
-@onready var armature = $Gnome/Armature
-@onready var light = $Gnome/SpotLight3D
+@onready var mesh_red: MeshInstance3D = $Gnome/Armature/Skeleton3D/GnomeRed
+@onready var mesh_blue: MeshInstance3D = $Gnome/Armature/Skeleton3D/GnomeBlue
+@onready var mesh_yellow: MeshInstance3D = $Gnome/Armature/Skeleton3D/GnomeYellow
 
-const normal_model = preload("res://Scene/gnome.tscn")
-const small_model = preload("res://Scene/gnome_blue.tscn")
-const big_model = preload("res://Scene/gnome_yellow.tscn")
-var size_models = {
-	"normal": normal_model,
-	"small": small_model,
-	"big": big_model
+var light_colors = {
+	"normal": Color(1, 1, 1),      # Белый свет
+	"small": Color(0.6, 0.8, 1.0),   # Голубой свет
+	"big": Color(0.984, 0.859, 0.576)      # Желтый свет
 }
-var current_model_node: Node3D
+var size_models = {
+	"normal": mesh_red,
+	"small": mesh_blue,
+	"big": mesh_yellow
+}
 var current_size: String = "normal"
-
 
 
 # used in worldCamera.gd as offset of camera of defaul posotion
@@ -86,15 +91,12 @@ func handle_animations(delta): # [АНИМ]
 		IDLE:
 			run_val = lerpf(run_val, 0, blend_speed * delta)
 			jump_val = lerpf(jump_val, 0, blend_speed * delta)
-
 		RUN:
 			run_val = lerpf(run_val, 1, blend_speed * delta)
 			jump_val = lerpf(jump_val, 0, blend_speed * delta)
-
 		JUMP:
 			run_val = lerpf(run_val, 0, blend_speed * delta)
 			jump_val = lerpf(jump_val, 1, blend_speed * delta)
-
 	update_tree()
 
 func update_tree(): # [АНИМ]
@@ -104,56 +106,54 @@ func update_tree(): # [АНИМ]
 
 
 # ===== СКИН =====
-func swap_gnome_model(size_type: String): # [СКИН]
-	# Сохраняем текущие трансформации
-	var current_transform = global_transform if current_model_node == null else current_model_node.global_transform
-	
-	# Удаляем старую модель
-	if current_model_node:
-		current_model_node.queue_free()
-	
-	# Создаем новую модель
-	var new_model = size_models[size_type].instantiate()
-	add_child(new_model)
-	new_model.global_transform = current_transform
-	new_model.name = "Gnome"
-	
-	# Обновляем ссылки
-	current_model_node = new_model
-	update_model_references()
-	
-	return new_model
+func set_light_color(color: Color): # [СКИН]
+	if light: # смена цвета фонаря
+		light.light_color = color
+		
+		# Для плавного изменения
+		var tween = create_tween()
+		tween.tween_property(light, "light_color", color, 0.5)
+func hide_all_meshes(): # [СКИН]
+	if mesh_red: mesh_red.visible = false
+	if mesh_blue: mesh_blue.visible = false
+	if mesh_yellow: mesh_yellow.visible = false
+
+func set_mesh_visible(size_type: String): # [СКИН]
+	hide_all_meshes()
+	match size_type:
+		"normal":
+			if mesh_red: mesh_red.visible = true
+		"small":
+			if mesh_blue: mesh_blue.visible = true
+		"big":
+			if mesh_yellow: mesh_yellow.visible = true
 
 func apply_size_change(new_size: Vector3, size_type: String): # [СКИН]
 	start_scale = scale
 	target_scale = new_size
 	elapsed_time = 0.0
 	animating = true
+	current_size = size_type
 	
-	swap_gnome_model(size_type)
-
-func update_model_references(): # [СКИН]
-	if current_model_node:
-		# Ищем AnimationTree в новой модели
-		var new_anim_tree = current_model_node.get_node_or_null("AnimationTree")
-		anim_tree = new_anim_tree
-		
-		# Ищем Armature в новой модели
-		var new_armature = current_model_node.get_node_or_null("Armature")
-		armature = new_armature
-		
-		# ⚠️ Ищем SpotLight3D в новой модели
-		var new_light = current_model_node.get_node_or_null("SpotLight3D")
-		light = new_light
+	if light_colors.has(size_type):
+		set_light_color(light_colors[size_type])
+	
+	# Меняем видимый меш
+	set_mesh_visible(size_type)
 
 
 
 func die():
 	self.position = Vector3(0, 2, 0)
 func _ready():
-	# Инициализируем модель при старте
-	current_model_node = $Gnome
-	update_model_references()
+	# Инициализация мешей: скрываем все, потом показываем нужный
+	hide_all_meshes()
+	set_mesh_visible("normal")  # Показываем нормальный меш (красный)
+	
+	# Инициализируем ссылки
+	anim_tree = $Gnome/AnimationTree 
+	armature = $Gnome/Armature
+	light = $Gnome/Light/SpotLight3D
 	
 	current_size = "normal"
 	target_scale = scale_normal
@@ -171,7 +171,7 @@ func _input(event):
 # !!!!
 func _physics_process(delta: float) -> void:
 	handle_animations(delta)
-	print(coyote_timer.time_left)
+	
 	# ===== ГРАВИТАЦИЯ =====
 	if not is_on_floor():
 		if jumping == true:
@@ -211,7 +211,6 @@ func _physics_process(delta: float) -> void:
 	# ===== СКОРОСТЬ =====
 	if direction:
 		velocity.x = move_toward(velocity.x, SPEED * direction.x, ACC) 
-		light.position = Vector3(light.position.x, light.position.y, 1.25 * direction.x)
 		if velocity.x > 0:
 			move_right = true
 		else:
@@ -243,11 +242,11 @@ func _physics_process(delta: float) -> void:
 	
 	# ===== ПОВОРОТ АНИМАЦИИ =====
 	if direction.length() > 0.1:
-		# Вычисляем угол поворота в плоскости XZ
 		var look_direction = Vector2(direction.x, direction.y)
 		var target_angle = look_direction.angle()
 
 		armature.rotation.y = lerp_angle(armature.rotation.y, target_angle, 15 * delta)
+		light.position = Vector3(light.position.x, light.position.y, direction.x)
 		light.rotation.y = armature.rotation.y + deg_to_rad(180)
 	
 	
