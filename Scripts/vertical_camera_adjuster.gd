@@ -21,12 +21,7 @@ func _process(delta: float) -> void:
 	var direction = (target_position - self.position)
 	var distance = direction.length()
 	var speed = distance * speed_factor  # больше расстояние — больше скорость
-	if distance > 1:
-		speed = 5
-	else:
-		speed = 2
-	#print(distance)
-	
+
 	
 	var move_vector = direction.normalized() * speed * delta
 	
