@@ -16,7 +16,7 @@ func _process(delta: float) -> void:
 	var target_position = player.position
 	self.position.x = player.position.x
 	
-	var speed_factor = 3
+	var speed_factor = 5
 	
 	var direction = (target_position - self.position)
 	var distance = direction.length()
